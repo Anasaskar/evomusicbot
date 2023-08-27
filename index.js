@@ -48,17 +48,22 @@ i18n.configure({
 /**
  * Client Events
  */
-const channelId = process.env.channelId;
 
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
   client.user.setActivity(`Let it Die .`, { type: "LISTENING" });
-  const channel = client.channels.cache.find((r) => r.id === channelId);
-  if (!channel) {
-    console.log("Can't find channel");
-  } else {
-    channel.join();
-  }
+  const channelIdToJoin = process.env.channelId
+  const channel = client.channels.cache.get(channelIdToJoin);
+    if (!channel || channel.type !== 'voice') {
+        console.log('Invalid voice channel ID provided.');
+        return;
+    }
+
+    channel.join().then(connection => {
+        console.log('Joined voice channel.');
+    }).catch(error => {
+        console.error('Error joining voice channel:', error);
+    });
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
