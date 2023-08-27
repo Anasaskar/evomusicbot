@@ -48,9 +48,17 @@ i18n.configure({
 /**
  * Client Events
  */
+const channelId = process.env.channelId;
+
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
-  client.user.setActivity(`${PREFIX}help and ${PREFIX}play`, { type: "LISTENING" });
+  client.user.setActivity(`Let it Die .`, { type: "LISTENING" });
+  const channel = client.channels.cache.find((r) => r.id === channelId);
+  if (!channel) {
+    console.log("Can't find channel");
+  } else {
+    channel.join();
+  }
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
