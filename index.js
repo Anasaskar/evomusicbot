@@ -57,14 +57,15 @@ client.on("ready", () => {
     
     const channel = client.channels.cache.get(channelId);
     if (channel && channel.type === 'voice') {
-        channel.join().then(connection => {
-            console.log(`Joined ${channel.name}`);
-        }).catch(error => {
-            console.error(`Error joining channel: ${error}`);
-        });
-    } else {
-        console.error(`Channel with ID ${channelId} not found or not a voice channel.`);
-    }
+try {
+  setIntervel(() => {
+
+
+        channel.join()
+},50000)
+}catch(error) {
+console.log(error)
+}
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
